@@ -1,0 +1,22 @@
+<!DOCTYPE mapper PUBLIC 
+    "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="id.mbingweb.chatbotportalv1.mapper.AppRoleMapper">
+    <resultMap id="AppRoleMap" type="AppRole">
+        <id column="role_id" property="roleId" />
+        <result column="rolename" property="roleName" />
+    </resultMap>
+    
+    <select id="findAllRoles" resultMap="AppRoleMap">
+        SELECT  role_id AS roleId, rolename AS roleName
+        FROM    app_role
+    </select>
+    
+    <select id="findUserRoles" resultType="AppRole" parameterType="String">
+        SELECT  c.role_id AS roleId, c.rolename AS roleName
+        FROM    app_user a
+        JOIN    appuser_role b ON b.user_id = a.user_id
+        JOIN    app_role c ON c.role_id = b.role_id
+        WHERE   a.username = #{userName}
+    </select>
+</mapper>
